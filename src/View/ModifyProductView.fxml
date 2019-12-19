@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="750.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="750.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ModifyProductController">
    <children>
       <HBox layoutX="23.0" layoutY="23.0" minHeight="500.0" minWidth="850.0" style="-fx-border-color: #000000; -fx-border-width: 2; -fx-border-radius: 15;">
          <children>
@@ -105,7 +105,7 @@
                <children>
                   <HBox alignment="TOP_CENTER" prefHeight="64.0" prefWidth="440.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Search">
+                        <Button mnemonicParsing="false" onAction="#onActionSearchProduct" text="Search">
                            <HBox.margin>
                               <Insets bottom="5.0" top="50.0" />
                            </HBox.margin>
@@ -136,7 +136,7 @@
                   </TableView>
                   <HBox alignment="CENTER_RIGHT">
                      <children>
-                        <Button mnemonicParsing="false" text="Add">
+                        <Button mnemonicParsing="false" onAction="#onActionAddPart" text="Add">
                            <HBox.margin>
                               <Insets bottom="15.0" right="60.0" top="5.0" />
                            </HBox.margin>
@@ -159,7 +159,7 @@
                   </TableView>
                   <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="310.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Delete">
+                        <Button mnemonicParsing="false" onAction="#onActionDeletePart" text="Delete">
                            <HBox.margin>
                               <Insets bottom="5.0" right="60.0" top="5.0" />
                            </HBox.margin>
@@ -171,7 +171,7 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="555.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Save">
+                        <Button mnemonicParsing="false" onAction="#onActionSave" text="Save">
                            <HBox.margin>
                               <Insets bottom="15.0" right="10.0" top="5.0" />
                            </HBox.margin>
@@ -179,7 +179,7 @@
                               <Insets bottom="5.0" left="28.5" right="28.5" top="5.0" />
                            </padding>
                         </Button>
-                        <Button layoutX="383.0" layoutY="15.0" mnemonicParsing="false" text="Cancel">
+                        <Button layoutX="383.0" layoutY="15.0" mnemonicParsing="false" onAction="#onActionReturnToMainScreen" text="Cancel">
                            <HBox.margin>
                               <Insets bottom="15.0" right="60.0" top="5.0" />
                            </HBox.margin>
