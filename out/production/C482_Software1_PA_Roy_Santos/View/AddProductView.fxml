@@ -66,35 +66,35 @@
                               <Insets left="25.0" />
                            </GridPane.margin>
                         </Label>
-                        <TextField GridPane.columnIndex="1">
+                        <TextField fx:id="addProductId" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets right="90.0" />
                            </GridPane.margin>
                         </TextField>
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <TextField fx:id="addProductName" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets right="90.0" />
                            </GridPane.margin>
                         </TextField>
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <TextField fx:id="addProductInventory" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets right="165.0" />
                            </GridPane.margin>
                         </TextField>
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <TextField fx:id="addProductPrice" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets right="165.0" />
                            </GridPane.margin>
                         </TextField>
                         <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <children>
-                              <TextField prefWidth="90.0" />
+                              <TextField fx:id="addProductMax" prefWidth="90.0" />
                               <Label text="Min:">
                                  <padding>
                                     <Insets left="10.0" right="10.0" />
                                  </padding>
                               </Label>
-                              <TextField prefWidth="90.0" />
+                              <TextField fx:id="addProductMin" prefWidth="90.0" />
                            </children>
                         </HBox>
                      </children>
@@ -113,7 +113,7 @@
                               <Insets bottom="5.0" left="28.5" right="28.5" top="5.0" />
                            </padding>
                         </Button>
-                        <TextField>
+                        <TextField fx:id="addProductSearchField">
                            <HBox.margin>
                               <Insets bottom="5.0" top="50.0" />
                            </HBox.margin>
@@ -123,12 +123,12 @@
                         <Insets left="15.0" right="45.0" />
                      </VBox.margin>
                   </HBox>
-                  <TableView prefHeight="150.0" prefWidth="200.0">
+                  <TableView fx:id="inventoryPartsTableView" prefHeight="150.0" prefWidth="200.0">
                     <columns>
-                      <TableColumn minWidth="110.0" prefWidth="75.0" text="Part ID" />
-                      <TableColumn minWidth="110.0" prefWidth="75.0" text="Part Name" />
-                        <TableColumn minWidth="110.0" prefWidth="75.0" text="Inventory Level" />
-                        <TableColumn minWidth="110.0" prefWidth="75.0" text="Price per Unit" />
+                      <TableColumn fx:id="inventoryPartID" minWidth="110.0" prefWidth="75.0" text="Part ID" />
+                      <TableColumn fx:id="inventoryPartName" minWidth="110.0" prefWidth="75.0" text="Part Name" />
+                        <TableColumn fx:id="inventoryStockLevel" minWidth="110.0" prefWidth="75.0" text="Inventory Level" />
+                        <TableColumn fx:id="InventoryPrice" minWidth="110.0" prefWidth="75.0" text="Price per Unit" />
                     </columns>
                      <VBox.margin>
                         <Insets left="15.0" right="45.0" />
@@ -146,12 +146,12 @@
                         </Button>
                      </children>
                   </HBox>
-                  <TableView layoutX="10.0" layoutY="110.0" prefHeight="150.0" prefWidth="200.0">
+                  <TableView fx:id="associatedPartsTableView" layoutX="10.0" layoutY="110.0" prefHeight="150.0" prefWidth="200.0">
                      <columns>
-                        <TableColumn minWidth="110.0" prefWidth="75.0" text="Part ID" />
-                        <TableColumn minWidth="110.0" prefWidth="75.0" text="Part Name" />
-                        <TableColumn minWidth="110.0" prefWidth="75.0" text="Inventory Level" />
-                        <TableColumn minWidth="110.0" prefWidth="75.0" text="Price per Unit" />
+                        <TableColumn fx:id="associatedPartId" minWidth="110.0" prefWidth="75.0" text="Part ID" />
+                        <TableColumn fx:id="associatedPartName" minWidth="110.0" prefWidth="75.0" text="Part Name" />
+                        <TableColumn fx:id="associatedIStockLevel" minWidth="110.0" prefWidth="75.0" text="Inventory Level" />
+                        <TableColumn fx:id="associatedPrice" minWidth="110.0" prefWidth="75.0" text="Price per Unit" />
                      </columns>
                      <VBox.margin>
                         <Insets left="15.0" right="45.0" />

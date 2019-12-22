@@ -19,7 +19,7 @@ public class Inventory {
         allProducts.add(product);
 
     }
-
+/*
     public static Part lookupPart(int partId) {
 
     }
@@ -35,6 +35,8 @@ public class Inventory {
     public static Product lookupProduct(String productName) {
 
     }
+
+ */
 
     public static void updatePart(int index, Part part) {
         // refer back to int index parameter on UML diagram
