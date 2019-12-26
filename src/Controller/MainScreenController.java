@@ -3,6 +3,8 @@ package Controller;
 import Model.Inventory;
 import Model.Part;
 import Model.Product;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +20,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
@@ -84,11 +88,13 @@ public class MainScreenController implements Initializable {
     @FXML
     void onActionDeletePart(ActionEvent event) {
 
+        Inventory.deletePart(partsTableView.getSelectionModel().getSelectedItem());
     }
 
     @FXML
     void onActionDeleteProduct(ActionEvent event) {
 
+        Inventory.deleteProduct(productsTableView.getSelectionModel().getSelectedItem());
     }
 
     @FXML
@@ -121,11 +127,32 @@ public class MainScreenController implements Initializable {
     @FXML
     void onActionPartsSearch(ActionEvent event) {
 
+        String partInput = partSearchField.getText();
+        ObservableList<Part> searchResult = FXCollections.observableArrayList();
+        try {
+            int partId = Integer.valueOf(partInput);
+            searchResult.add(Inventory.lookupPart(partId));
+        } catch (NumberFormatException e) {
+            searchResult.add(Inventory.lookupPart(partInput));
+        }
+
+        partsTableView.setItems(searchResult);
     }
 
     @FXML
     void onActionProductsSearch(ActionEvent event) {
 
+        String productInput = productSearchField.getText();
+        ObservableList<Product> searchResult = FXCollections.observableArrayList();
+
+        try {
+            int productId = Integer.valueOf(productInput);
+            searchResult.add(Inventory.lookupProduct(productId));
+        } catch (NumberFormatException e) {
+            searchResult.add(Inventory.lookupProduct(productInput));
+        }
+
+        productsTableView.setItems(searchResult);
     }
 
     @Override
