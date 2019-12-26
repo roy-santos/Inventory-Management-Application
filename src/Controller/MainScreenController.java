@@ -117,6 +117,8 @@ public class MainScreenController implements Initializable {
     @FXML
     void onActionModifyProduct(ActionEvent event) throws IOException {
 
+        System.out.println(productsTableView.getSelectionModel().getSelectedItem());
+
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/ModifyProductView.fxml"));
         stage.setScene(new Scene(scene));

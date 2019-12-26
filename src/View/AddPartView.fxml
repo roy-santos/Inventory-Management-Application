@@ -85,10 +85,13 @@
                   <Insets left="100.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="addPartID" GridPane.columnIndex="1">
+            <TextField fx:id="addPartID" disable="true" text="Auto Gen - Disabled" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets right="125.0" />
                </GridPane.margin>
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
             </TextField>
             <TextField fx:id="addPartName" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>

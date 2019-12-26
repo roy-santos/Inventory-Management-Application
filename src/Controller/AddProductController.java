@@ -5,6 +5,8 @@ import Model.Inventory;
 import Model.Outsourced;
 import Model.Part;
 import Model.Product;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +28,7 @@ public class AddProductController implements Initializable {
 
     Stage stage;
     Parent scene;
+    ObservableList<Part> tempAssociatedPartsList = FXCollections.observableArrayList();
 
     @FXML
     private TextField addProductId;
@@ -46,7 +49,7 @@ public class AddProductController implements Initializable {
     private TextField addProductMin;
 
     @FXML
-    private TextField addProductSearchField;
+    private TextField addProductPartSearchField;
 
     @FXML
     private TableView<Part> inventoryPartsTableView;
@@ -73,19 +76,19 @@ public class AddProductController implements Initializable {
     private TableColumn<Part, String> associatedPartName;
 
     @FXML
-    private TableColumn<Part, Integer> associatedIStockLevel;
+    private TableColumn<Part, Integer> associatedStockLevel;
 
     @FXML
     private TableColumn<Part, Double> associatedPrice;
 
     @FXML
     void onActionAddPart(ActionEvent event) {
-
+        tempAssociatedPartsList.add(inventoryPartsTableView.getSelectionModel().getSelectedItem());
     }
 
     @FXML
     void onActionDeletePart(ActionEvent event) {
-
+        tempAssociatedPartsList.remove(associatedPartsTableView.getSelectionModel().getSelectedItem());
     }
 
     @FXML
@@ -101,7 +104,7 @@ public class AddProductController implements Initializable {
     @FXML
     void onActionSave(ActionEvent event) throws IOException {
 
-        int id = Integer.parseInt(addProductId.getText());
+        int id = Inventory.getAllProducts().size() + 1;
         String name = addProductName.getText();
         double price = Double.parseDouble(addProductPrice.getText());
         int stock = Integer.parseInt(addProductInventory.getText());
@@ -109,6 +112,10 @@ public class AddProductController implements Initializable {
         int max = Integer.parseInt(addProductMax.getText());
 
         Inventory.addProduct(new Product(id, name, price, stock, min, max));
+
+        for(Part tempPart : tempAssociatedPartsList) {
+            Inventory.getAllProducts().get(Inventory.getAllProducts().size() - 1).addAssociatedPart(tempPart);
+        }
 
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
@@ -118,7 +125,7 @@ public class AddProductController implements Initializable {
     }
 
     @FXML
-    void onActionSearchProduct(ActionEvent event) {
+    void onActionSearchProductPart(ActionEvent event) {
 
     }
 
@@ -133,17 +140,17 @@ public class AddProductController implements Initializable {
         inventoryStockLevel.setCellValueFactory(new PropertyValueFactory<>("stock"));
         inventoryPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        /*
+
         // Set associated parts table view
-        associatedPartsTableView.setItems();
+        associatedPartsTableView.setItems(tempAssociatedPartsList);
 
         // Fill associated parts column with values
 
         associatedPartId.setCellValueFactory(new PropertyValueFactory<>("id"));
         associatedPartName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        associatedIStockLevel.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        associatedStockLevel.setCellValueFactory(new PropertyValueFactory<>("stock"));
         associatedPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-         */
+
 
     }
 

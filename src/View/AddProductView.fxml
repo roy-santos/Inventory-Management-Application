@@ -66,10 +66,13 @@
                               <Insets left="25.0" />
                            </GridPane.margin>
                         </Label>
-                        <TextField fx:id="addProductId" GridPane.columnIndex="1">
+                        <TextField fx:id="addProductId" disable="true" text="Auto Gen - Disabled" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets right="90.0" />
                            </GridPane.margin>
+                           <font>
+                              <Font name="System Italic" size="12.0" />
+                           </font>
                         </TextField>
                         <TextField fx:id="addProductName" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <GridPane.margin>
@@ -105,7 +108,7 @@
                <children>
                   <HBox alignment="TOP_CENTER" prefHeight="64.0" prefWidth="440.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#onActionSearchProduct" text="Search">
+                        <Button mnemonicParsing="false" onAction="#onActionSearchProductPart" text="Search">
                            <HBox.margin>
                               <Insets bottom="5.0" top="50.0" />
                            </HBox.margin>
@@ -113,7 +116,7 @@
                               <Insets bottom="5.0" left="28.5" right="28.5" top="5.0" />
                            </padding>
                         </Button>
-                        <TextField fx:id="addProductSearchField">
+                        <TextField fx:id="addProductPartSearchField">
                            <HBox.margin>
                               <Insets bottom="5.0" top="50.0" />
                            </HBox.margin>
@@ -150,7 +153,7 @@
                      <columns>
                         <TableColumn fx:id="associatedPartId" minWidth="110.0" prefWidth="75.0" text="Part ID" />
                         <TableColumn fx:id="associatedPartName" minWidth="110.0" prefWidth="75.0" text="Part Name" />
-                        <TableColumn fx:id="associatedIStockLevel" minWidth="110.0" prefWidth="75.0" text="Inventory Level" />
+                        <TableColumn fx:id="associatedStockLevel" minWidth="110.0" prefWidth="75.0" text="Inventory Level" />
                         <TableColumn fx:id="associatedPrice" minWidth="110.0" prefWidth="75.0" text="Price per Unit" />
                      </columns>
                      <VBox.margin>

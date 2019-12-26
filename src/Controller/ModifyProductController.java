@@ -1,19 +1,57 @@
 package Controller;
 
+import Model.Inventory;
+import Model.Part;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class ModifyProductController {
+public class ModifyProductController implements Initializable {
 
     Stage stage;
     Parent scene;
+
+    @FXML
+    private TableView<Part> inventoryPartsTableView;
+
+    @FXML
+    private TableColumn<Part, Integer> inventoryPartId;
+
+    @FXML
+    private TableColumn<Part, String> inventoryPartName;
+
+    @FXML
+    private TableColumn<Part, Integer> inventoryStockLevel;
+
+    @FXML
+    private TableColumn<Part, Double> inventoryPrice;
+
+    @FXML
+    private TableView<Part> associatedPartsTableView;
+
+    @FXML
+    private TableColumn<Part, Integer> associatedPartId;
+
+    @FXML
+    private TableColumn<Part, String> associatedPartName;
+
+    @FXML
+    private TableColumn<Part, Integer> associatedStockLevel;
+
+    @FXML
+    private TableColumn<Part, Double> associatedPrice;
 
     @FXML
     void onActionAddPart(ActionEvent event) {
@@ -45,5 +83,29 @@ public class ModifyProductController {
 
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // Set Parts table view
+        inventoryPartsTableView.setItems(Inventory.getAllParts());
+
+        // Fill Parts column with values
+        inventoryPartId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        inventoryPartName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        inventoryStockLevel.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        inventoryPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+
+        // Set associated parts table view
+       // associatedPartsTableView.setItems(tempAssociatedPartsList);
+
+        // Fill associated parts column with values
+
+        associatedPartId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        associatedPartName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        associatedStockLevel.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        associatedPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+
+    }
 
 }

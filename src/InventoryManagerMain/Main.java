@@ -40,6 +40,8 @@ public class Main extends Application {
         Inventory.addProduct(product2);
         Inventory.addProduct(product3);
 
+        System.out.println(Inventory.getAllParts().size());
+
         launch(args);
     }
 }
