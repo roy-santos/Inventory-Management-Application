@@ -26,7 +26,6 @@ public class ModifyProductController implements Initializable {
 
     Stage stage;
     Parent scene;
-    ObservableList<Part> tempAssociatedPartsList = FXCollections.observableArrayList();
 
     @FXML
     private TextField productIdField;
@@ -141,7 +140,21 @@ public class ModifyProductController implements Initializable {
     @FXML
     void onActionSearchPart(ActionEvent event) {
 
-        inventoryPartsTableView.setItems(Inventory.getAllParts());
+        String partInput = partSearchField.getText();
+
+        try {
+            int partId = Integer.valueOf(partInput);
+            ObservableList<Part> searchResult = FXCollections.observableArrayList();
+            searchResult.add(Inventory.lookupPart(partId));
+
+            if (searchResult.get(0) == null) {
+                inventoryPartsTableView.setItems(Inventory.getAllParts());
+            } else {
+                inventoryPartsTableView.setItems(searchResult);
+            }
+        } catch (NumberFormatException e) {
+            inventoryPartsTableView.setItems(Inventory.lookupPart(partInput));
+        }
 
     }
 

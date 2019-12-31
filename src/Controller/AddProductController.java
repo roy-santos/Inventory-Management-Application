@@ -127,6 +127,22 @@ public class AddProductController implements Initializable {
     @FXML
     void onActionSearchProductPart(ActionEvent event) {
 
+        String partInput = addProductPartSearchField.getText();
+
+        try {
+            int partId = Integer.valueOf(partInput);
+            ObservableList<Part> searchResult = FXCollections.observableArrayList();
+            searchResult.add(Inventory.lookupPart(partId));
+
+            if (searchResult.get(0) == null) {
+                inventoryPartsTableView.setItems(Inventory.getAllParts());
+            } else {
+                inventoryPartsTableView.setItems(searchResult);
+            }
+        } catch (NumberFormatException e) {
+            inventoryPartsTableView.setItems(Inventory.lookupPart(partInput));
+        }
+
     }
 
     @Override
