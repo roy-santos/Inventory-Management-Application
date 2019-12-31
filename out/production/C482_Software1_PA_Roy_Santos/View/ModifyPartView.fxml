@@ -26,7 +26,7 @@
                   <Insets left="20.0" right="100.0" />
                </HBox.margin>
             </Label>
-            <RadioButton mnemonicParsing="false" text="In-House">
+            <RadioButton fx:id="modPartInHouse" mnemonicParsing="false" text="In-House">
                <HBox.margin>
                   <Insets right="25.0" />
                </HBox.margin>
@@ -34,7 +34,7 @@
                   <ToggleGroup fx:id="partSource" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton mnemonicParsing="false" selected="true" text="Outsourced" toggleGroup="$partSource">
+            <RadioButton fx:id="modPartOutsourced" mnemonicParsing="false" onAction="#onActionModPartOut" selected="true" text="Outsourced" toggleGroup="$partSource">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -80,39 +80,39 @@
                   <Insets left="100.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Company Name:" GridPane.rowIndex="5">
+            <Label fx:id="modPartVariableName" text="Company Name:" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="100.0" />
                </GridPane.margin>
             </Label>
-            <TextField GridPane.columnIndex="1">
+            <TextField fx:id="partIdField" disable="true" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets right="125.0" />
                </GridPane.margin>
             </TextField>
-            <TextField layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <TextField fx:id="modPartVariableField" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets right="125.0" />
                </GridPane.margin>
             </TextField>
-            <TextField layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <TextField fx:id="partPriceField" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets right="125.0" />
                </GridPane.margin>
             </TextField>
-            <TextField layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TextField fx:id="partStockField" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets right="125.0" />
                </GridPane.margin>
             </TextField>
-            <TextField layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="partNameField" layoutX="10.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets right="125.0" />
                </GridPane.margin>
             </TextField>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
-                  <TextField prefWidth="90.0">
+                  <TextField fx:id="partMaxField" prefWidth="90.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -122,7 +122,7 @@
                         <Insets left="10.0" right="10.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefWidth="90.0" />
+                  <TextField fx:id="partMinField" prefWidth="90.0" />
                </children>
             </HBox>
          </children>

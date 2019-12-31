@@ -25,7 +25,7 @@ public class Main extends Application {
         Part part1 = new InHouse(1, "Part1", 5.99, 3,1,2, 1234);
         Part part2 = new Outsourced(2,"Part2", 3.44, 5,1,19,"Joe's");
         Part part3 = new InHouse(3, "Part3", 3.99, 13,10,20, 1234);
-        Part part4 = new Outsourced(4,"Part4", 10.95, 25,15,30,"FlanCrest Enterprise");
+        Part part4 = new Outsourced(4,"Part14", 10.95, 25,15,30,"FlanCrest Enterprise");
 
         Inventory.addPart(part1);
         Inventory.addPart(part2);
@@ -39,8 +39,6 @@ public class Main extends Application {
         Inventory.addProduct(product1);
         Inventory.addProduct(product2);
         Inventory.addProduct(product3);
-
-        System.out.println(Inventory.getAllParts().size());
 
         launch(args);
     }

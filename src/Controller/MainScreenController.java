@@ -3,6 +3,7 @@ package Controller;
 import Model.Inventory;
 import Model.Part;
 import Model.Product;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.Loader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.EmptyStackException;
 import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
@@ -107,22 +109,44 @@ public class MainScreenController implements Initializable {
     @FXML
     void onActionModifyPart(ActionEvent event) throws IOException {
 
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/ModifyPartView.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        try {
+            // Specify which view to load
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/View/ModifyPartView.fxml"));
+            loader.load();
+
+            ModifyPartController modPartController = loader.getController();
+            modPartController.sendPartInfo(partsTableView.getSelectionModel().getSelectedItem());
+
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            Parent scene = loader.getRoot();
+            stage.setScene(new Scene(scene));
+            stage.show();
+        } catch (Exception e) {
+            // No selected part
+        }
 
     }
 
     @FXML
     void onActionModifyProduct(ActionEvent event) throws IOException {
 
-        System.out.println(productsTableView.getSelectionModel().getSelectedItem());
+        try {
+            // Specify which view to load
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/View/ModifyProductView.fxml"));
+            loader.load();
 
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/ModifyProductView.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+            ModifyProductController modProdController = loader.getController();
+            modProdController.sendProductInfo(productsTableView.getSelectionModel().getSelectedItem());
+
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            Parent scene = loader.getRoot();
+            stage.setScene(new Scene(scene));
+            stage.show();
+        } catch (Exception e) {
+            // No selected product
+        }
 
     }
 
@@ -130,31 +154,41 @@ public class MainScreenController implements Initializable {
     void onActionPartsSearch(ActionEvent event) {
 
         String partInput = partSearchField.getText();
-        ObservableList<Part> searchResult = FXCollections.observableArrayList();
-        try {
-            int partId = Integer.valueOf(partInput);
-            searchResult.add(Inventory.lookupPart(partId));
-        } catch (NumberFormatException e) {
-            searchResult.add(Inventory.lookupPart(partInput));
-        }
 
-        partsTableView.setItems(searchResult);
+            try {
+                int partId = Integer.valueOf(partInput);
+                ObservableList<Part> searchResult = FXCollections.observableArrayList();
+                searchResult.add(Inventory.lookupPart(partId));
+
+                if (searchResult.get(0) == null) {
+                    partsTableView.setItems(Inventory.getAllParts());
+                } else {
+                    partsTableView.setItems(searchResult);
+                }
+            } catch (NumberFormatException e) {
+                partsTableView.setItems(Inventory.lookupPart(partInput));
+            }
     }
 
     @FXML
     void onActionProductsSearch(ActionEvent event) {
 
         String productInput = productSearchField.getText();
-        ObservableList<Product> searchResult = FXCollections.observableArrayList();
 
         try {
             int productId = Integer.valueOf(productInput);
+            ObservableList<Product> searchResult = FXCollections.observableArrayList();
             searchResult.add(Inventory.lookupProduct(productId));
+
+            if(searchResult.get(0) == null) {
+                productsTableView.setItems(Inventory.getAllProducts());
+            } else {
+                productsTableView.setItems(searchResult);
+            }
         } catch (NumberFormatException e) {
-            searchResult.add(Inventory.lookupProduct(productInput));
+            productsTableView.setItems(Inventory.lookupProduct(productInput));
         }
 
-        productsTableView.setItems(searchResult);
     }
 
     @Override

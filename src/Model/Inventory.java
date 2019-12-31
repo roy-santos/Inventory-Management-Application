@@ -39,24 +39,38 @@ public class Inventory {
     }
 
 
-    public static Part lookupPart(String partName) {
+    public static ObservableList<Part> lookupPart(String partName) {
+
+        ObservableList<Part> filteredPartsResult = FXCollections.observableArrayList();
+
         for(Part part: allParts) {
-            if(part.getName().equalsIgnoreCase(partName)) {
-                System.out.println(part.getName());
-                return part;
+            if(part.getName().toLowerCase().contains(partName.toLowerCase())) {
+                filteredPartsResult.add(part);
             }
         }
-        return null;
+
+        if(filteredPartsResult.isEmpty()) {
+            return allParts;
+        }
+
+        return filteredPartsResult;
     }
 
-    public static Product lookupProduct(String productName) {
+    public static ObservableList<Product> lookupProduct(String productName) {
+
+        ObservableList<Product> filteredProductsResult = FXCollections.observableArrayList();
+
         for(Product product: allProducts) {
-            if(product.getName().equalsIgnoreCase(productName)) {
-                System.out.println(product.getName());
-                return product;
+            if(product.getName().toLowerCase().contains(productName.toLowerCase())) {
+                filteredProductsResult.add(product);
             }
         }
-        return null;
+
+        if(filteredProductsResult.isEmpty()) {
+            return allProducts;
+        }
+
+        return filteredProductsResult;
     }
 
     public static void updatePart(int index, Part part) {

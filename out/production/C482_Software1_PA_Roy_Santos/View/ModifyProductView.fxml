@@ -66,35 +66,35 @@
                               <Insets left="25.0" />
                            </GridPane.margin>
                         </Label>
-                        <TextField GridPane.columnIndex="1">
+                        <TextField fx:id="productIdField" disable="true" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets right="90.0" />
                            </GridPane.margin>
                         </TextField>
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <TextField fx:id="productNameField" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets right="90.0" />
                            </GridPane.margin>
                         </TextField>
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <TextField fx:id="productStockField" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets right="165.0" />
                            </GridPane.margin>
                         </TextField>
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <TextField fx:id="productPriceField" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets right="165.0" />
                            </GridPane.margin>
                         </TextField>
                         <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <children>
-                              <TextField prefWidth="90.0" />
+                              <TextField fx:id="productMaxField" prefWidth="90.0" />
                               <Label text="Min:">
                                  <padding>
                                     <Insets left="10.0" right="10.0" />
                                  </padding>
                               </Label>
-                              <TextField prefWidth="90.0" />
+                              <TextField fx:id="productMinField" prefWidth="90.0" />
                            </children>
                         </HBox>
                      </children>
@@ -105,7 +105,7 @@
                <children>
                   <HBox alignment="TOP_CENTER" prefHeight="64.0" prefWidth="440.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#onActionSearchProduct" text="Search">
+                        <Button mnemonicParsing="false" onAction="#onActionSearchPart" text="Search">
                            <HBox.margin>
                               <Insets bottom="5.0" top="50.0" />
                            </HBox.margin>
@@ -113,7 +113,7 @@
                               <Insets bottom="5.0" left="28.5" right="28.5" top="5.0" />
                            </padding>
                         </Button>
-                        <TextField>
+                        <TextField fx:id="partSearchField">
                            <HBox.margin>
                               <Insets bottom="5.0" top="50.0" />
                            </HBox.margin>
