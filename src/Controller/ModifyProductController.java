@@ -11,7 +11,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -20,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ModifyProductController implements Initializable {
@@ -94,11 +97,20 @@ public class ModifyProductController implements Initializable {
     @FXML
     void onActionDeletePart(ActionEvent event) {
 
-        int id = Integer.parseInt(productIdField.getText());
+        if(associatedPartsTableView.getSelectionModel().getSelectedItem() != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will permanently delete the part, do you want to continue?");
+            alert.setTitle("CONFIRMATION");
 
-        for(Product product: Inventory.getAllProducts()) {
-            if (product.getId() == id) {
-                product.getAllAssociatedParts().remove(associatedPartsTableView.getSelectionModel().getSelectedItem());
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                int id = Integer.parseInt(productIdField.getText());
+
+                for (Product product : Inventory.getAllProducts()) {
+                    if (product.getId() == id) {
+                        product.getAllAssociatedParts().remove(associatedPartsTableView.getSelectionModel().getSelectedItem());
+                    }
+                }
             }
         }
     }
@@ -106,10 +118,17 @@ public class ModifyProductController implements Initializable {
     @FXML
     void onActionReturnToMainScreen(ActionEvent event) throws IOException {
 
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Changes wont be saved, continue?");
+        alert.setTitle("CONFIRMATION");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if(result.isPresent() && result.get() == ButtonType.OK) {
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
 
     }
 
@@ -118,23 +137,30 @@ public class ModifyProductController implements Initializable {
 
         int id = Integer.parseInt(productIdField.getText());
 
+        if (Integer.parseInt(productStockField.getText()) < Integer.parseInt(productMaxField.getText()) && Integer.parseInt(productStockField.getText()) > Integer.parseInt(productMinField.getText())) {
 
-        for(Product product: Inventory.getAllProducts()) {
-            if(product.getId() == id) {
+            for (Product product : Inventory.getAllProducts()) {
+                if (product.getId() == id) {
 
-                product.setName(productNameField.getText());
-                product.setStock(Integer.parseInt(productStockField.getText()));
-                product.setPrice(Double.parseDouble(productPriceField.getText()));
-                product.setMax(Integer.parseInt(productMaxField.getText()));
-                product.setMin(Integer.parseInt(productMinField.getText()));
+                    product.setName(productNameField.getText());
+                    product.setStock(Integer.parseInt(productStockField.getText()));
+                    product.setPrice(Double.parseDouble(productPriceField.getText()));
+                    product.setMax(Integer.parseInt(productMaxField.getText()));
+                    product.setMin(Integer.parseInt(productMinField.getText()));
+                }
+
             }
 
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Please make sure that inventory quantity is greater than minimum and less than the maximum value.");
+            alert.showAndWait();
         }
-
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
     }
 
     @FXML

@@ -13,7 +13,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -22,6 +24,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AddProductController implements Initializable {
@@ -88,16 +91,33 @@ public class AddProductController implements Initializable {
 
     @FXML
     void onActionDeletePart(ActionEvent event) {
-        tempAssociatedPartsList.remove(associatedPartsTableView.getSelectionModel().getSelectedItem());
+
+        if(associatedPartsTableView.getSelectionModel().getSelectedItem() != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will permanently delete the part, do you want to continue?");
+            alert.setTitle("CONFIRMATION");
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                tempAssociatedPartsList.remove(associatedPartsTableView.getSelectionModel().getSelectedItem());
+            }
+        }
     }
 
     @FXML
     void onActionReturnToMainScreen(ActionEvent event) throws IOException {
 
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Changes wont be saved, continue?");
+        alert.setTitle("CONFIRMATION");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if(result.isPresent() && result.get() == ButtonType.OK) {
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
 
     }
 
@@ -111,16 +131,23 @@ public class AddProductController implements Initializable {
         int min = Integer.parseInt(addProductMin.getText());
         int max = Integer.parseInt(addProductMax.getText());
 
-        Inventory.addProduct(new Product(id, name, price, stock, min, max));
+        if (stock < max && stock > min) {
+            Inventory.addProduct(new Product(id, name, price, stock, min, max));
 
-        for(Part tempPart : tempAssociatedPartsList) {
-            Inventory.getAllProducts().get(Inventory.getAllProducts().size() - 1).addAssociatedPart(tempPart);
+            for (Part tempPart : tempAssociatedPartsList) {
+                Inventory.getAllProducts().get(Inventory.getAllProducts().size() - 1).addAssociatedPart(tempPart);
+            }
+
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Please make sure that inventory quantity is greater than minimum and less than the maximum value.");
+            alert.showAndWait();
         }
-
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
 
     }
 

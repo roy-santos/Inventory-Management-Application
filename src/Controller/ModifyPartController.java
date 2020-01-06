@@ -11,7 +11,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -20,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ModifyPartController implements Initializable {
@@ -75,10 +78,17 @@ public class ModifyPartController implements Initializable {
     @FXML
     void onActionReturnToMainScreen(ActionEvent event) throws IOException {
 
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Changes wont be saved, continue?");
+        alert.setTitle("CONFIRMATION");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if(result.isPresent() && result.get() == ButtonType.OK) {
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
 
     }
 
@@ -87,33 +97,40 @@ public class ModifyPartController implements Initializable {
 
         int id = Integer.parseInt(partIdField.getText());
 
-        for(Part part: Inventory.getAllParts()) {
+        if(Integer.parseInt(partStockField.getText()) < Integer.parseInt(partMaxField.getText()) && Integer.parseInt(partStockField.getText()) > Integer.parseInt(partMinField.getText())) {
 
-            if(part.getId() == id) {
+            for(Part part: Inventory.getAllParts()) {
 
-                part.setName(partNameField.getText());
-                part.setStock(Integer.parseInt(partStockField.getText()));
-                part.setPrice(Double.parseDouble(partPriceField.getText()));
-                part.setMax(Integer.parseInt(partMaxField.getText()));
-                part.setMin(Integer.parseInt(partMinField.getText()));
 
-                if(modPartInHouse.isSelected()) {
+                if (part.getId() == id) {
 
-                    ((InHouse) part).setMachineId(Integer.parseInt(modPartVariableField.getText()));
-                } else {
+                    part.setName(partNameField.getText());
+                    part.setStock(Integer.parseInt(partStockField.getText()));
+                    part.setPrice(Double.parseDouble(partPriceField.getText()));
+                    part.setMax(Integer.parseInt(partMaxField.getText()));
+                    part.setMin(Integer.parseInt(partMinField.getText()));
 
-                    ((Outsourced) part).setCompanyName(modPartVariableField.getText());
+
+                    if (modPartInHouse.isSelected()) {
+
+                        ((InHouse) part).setMachineId(Integer.parseInt(modPartVariableField.getText()));
+                    } else {
+
+                        ((Outsourced) part).setCompanyName(modPartVariableField.getText());
+                    }
+
+                    stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                    scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
+                    stage.setScene(new Scene(scene));
+                    stage.show();
                 }
-
             }
-
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Please make sure that inventory quantity is greater than minimum and less than the maximum value.");
+            alert.showAndWait();
         }
-
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
-
     }
 
     public void sendPartInfo(Part part) {

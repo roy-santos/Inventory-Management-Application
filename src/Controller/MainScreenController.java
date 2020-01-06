@@ -12,18 +12,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.EmptyStackException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
@@ -90,13 +94,37 @@ public class MainScreenController implements Initializable {
     @FXML
     void onActionDeletePart(ActionEvent event) {
 
-        Inventory.deletePart(partsTableView.getSelectionModel().getSelectedItem());
+        if(partsTableView.getSelectionModel().getSelectedItem() != null) {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will permanently delete the part, do you want to continue?");
+            alert.setTitle("CONFIRMATION");
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                Inventory.deletePart(partsTableView.getSelectionModel().getSelectedItem());
+            }
+        } else {
+            System.out.println("No part selected");
+        }
     }
 
     @FXML
     void onActionDeleteProduct(ActionEvent event) {
 
-        Inventory.deleteProduct(productsTableView.getSelectionModel().getSelectedItem());
+        if(productsTableView.getSelectionModel().getSelectedItem() != null) {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will permanently delete the product, do you want to continue?");
+            alert.setTitle("CONFIRMATION");
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                Inventory.deleteProduct(productsTableView.getSelectionModel().getSelectedItem());
+            }
+        } else {
+            System.out.println("No product selected.");
+        }
     }
 
     @FXML
@@ -122,8 +150,9 @@ public class MainScreenController implements Initializable {
             Parent scene = loader.getRoot();
             stage.setScene(new Scene(scene));
             stage.show();
-        } catch (Exception e) {
-            // No selected part
+        } catch (NullPointerException e) {
+            System.out.println("Exception: " + e);
+            System.out.println("No part selected!");
         }
 
     }
@@ -144,8 +173,9 @@ public class MainScreenController implements Initializable {
             Parent scene = loader.getRoot();
             stage.setScene(new Scene(scene));
             stage.show();
-        } catch (Exception e) {
-            // No selected product
+        } catch (NullPointerException e) {
+            System.out.println("Exception: " + e);
+            System.out.println("No product selected!");
         }
 
     }
