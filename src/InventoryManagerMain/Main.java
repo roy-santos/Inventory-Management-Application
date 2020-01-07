@@ -32,9 +32,9 @@ public class Main extends Application {
         Inventory.addPart(part3);
         Inventory.addPart(part4);
 
-        Product product1 = new Product(10,"Product1",19.99,5,1,5);
-        Product product2 = new Product(11,"Product2",29.99,12,10,15);
-        Product product3 = new Product(12,"Product3",49.99,6,5,20);
+        Product product1 = new Product(1,"Product1",19.99,5,1,5);
+        Product product2 = new Product(2,"Product2",29.99,12,10,15);
+        Product product3 = new Product(3,"Product3",49.99,6,5,20);
 
         Inventory.addProduct(product1);
         Inventory.addProduct(product2);

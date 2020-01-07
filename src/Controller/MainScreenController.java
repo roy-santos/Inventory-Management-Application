@@ -3,7 +3,6 @@ package Controller;
 import Model.Inventory;
 import Model.Part;
 import Model.Product;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.Loader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,12 +20,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.net.URL;
-import java.text.ParseException;
-import java.util.Arrays;
-import java.util.EmptyStackException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 

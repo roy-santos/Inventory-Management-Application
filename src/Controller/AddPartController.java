@@ -18,7 +18,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
-import javax.xml.ws.handler.LogicalHandler;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -121,8 +120,6 @@ public class AddPartController implements Initializable {
                 alert.setContentText("Please make sure that inventory quantity is greater than minimum and less than the maximum value.");
                 alert.showAndWait();
             }
-
-
     }
 
     @Override

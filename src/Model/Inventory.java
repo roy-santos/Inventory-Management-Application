@@ -74,16 +74,15 @@ public class Inventory {
     }
 
     public static void updatePart(int index, Part part) {
-        // refer back to int index parameter on UML diagram
+       allParts.set(index, part);
     }
 
     public static void updateProduct(int index, Product product) {
-        // refer back to int index parameter on UML diagram
+        allProducts.set(index, product);
     }
 
     public static void deletePart(Part part) {
         allParts.remove(part);
-
     }
 
     public static void deleteProduct(Product product) {

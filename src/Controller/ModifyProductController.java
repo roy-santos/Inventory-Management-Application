@@ -29,6 +29,7 @@ public class ModifyProductController implements Initializable {
 
     Stage stage;
     Parent scene;
+    ObservableList<Part> modifiedAssociatedParts = FXCollections.observableArrayList();
 
     @FXML
     private TextField productIdField;
@@ -84,14 +85,7 @@ public class ModifyProductController implements Initializable {
     @FXML
     void onActionAddPart(ActionEvent event) {
 
-        int id = Integer.parseInt(productIdField.getText());
-
-        for(Product product: Inventory.getAllProducts()) {
-            if(product.getId() == id) {
-                product.getAllAssociatedParts().add(inventoryPartsTableView.getSelectionModel().getSelectedItem());
-            }
-        }
-
+        modifiedAssociatedParts.add(inventoryPartsTableView.getSelectionModel().getSelectedItem());
     }
 
     @FXML
@@ -104,13 +98,7 @@ public class ModifyProductController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                int id = Integer.parseInt(productIdField.getText());
-
-                for (Product product : Inventory.getAllProducts()) {
-                    if (product.getId() == id) {
-                        product.getAllAssociatedParts().remove(associatedPartsTableView.getSelectionModel().getSelectedItem());
-                    }
-                }
+                modifiedAssociatedParts.removeAll(associatedPartsTableView.getSelectionModel().getSelectedItem());
             }
         }
     }
@@ -129,26 +117,32 @@ public class ModifyProductController implements Initializable {
             stage.setScene(new Scene(scene));
             stage.show();
         }
-
     }
 
     @FXML
     void onActionSave(ActionEvent event) throws IOException {
 
-        int id = Integer.parseInt(productIdField.getText());
-
         if (Integer.parseInt(productStockField.getText()) < Integer.parseInt(productMaxField.getText()) && Integer.parseInt(productStockField.getText()) > Integer.parseInt(productMinField.getText())) {
 
+            int id = Integer.parseInt(productIdField.getText());
+            String name = productNameField.getText();
+            int stock = Integer.parseInt(productStockField.getText());
+            double price = Double.parseDouble(productPriceField.getText());
+            int min = Integer.parseInt(productMinField.getText());
+            int max = Integer.parseInt(productMaxField.getText());
+
             for (Product product : Inventory.getAllProducts()) {
+
                 if (product.getId() == id) {
 
-                    product.setName(productNameField.getText());
-                    product.setStock(Integer.parseInt(productStockField.getText()));
-                    product.setPrice(Double.parseDouble(productPriceField.getText()));
-                    product.setMax(Integer.parseInt(productMaxField.getText()));
-                    product.setMin(Integer.parseInt(productMinField.getText()));
-                }
+                    int productIndex = Inventory.getAllProducts().indexOf(product);
 
+                    Product modifiedProduct = new Product(id, name, price, stock, min, max);
+
+                    modifiedProduct.getAllAssociatedParts().setAll(modifiedAssociatedParts);
+
+                    Inventory.updateProduct(productIndex, modifiedProduct);
+                }
             }
 
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -195,7 +189,8 @@ public class ModifyProductController implements Initializable {
         productMinField.setText(Integer.toString(product.getMin()));
 
         // Set associated parts table view
-        associatedPartsTableView.setItems(product.getAllAssociatedParts());
+        modifiedAssociatedParts.setAll(product.getAllAssociatedParts());
+        associatedPartsTableView.setItems(modifiedAssociatedParts);
 
         // Fill associated parts column with values
 

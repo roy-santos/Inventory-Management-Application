@@ -4,7 +4,6 @@ import Model.InHouse;
 import Model.Inventory;
 import Model.Outsourced;
 import Model.Part;
-import Model.Product;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -95,36 +94,59 @@ public class ModifyPartController implements Initializable {
     @FXML
     void onActionSave(ActionEvent event) throws IOException {
 
-        int id = Integer.parseInt(partIdField.getText());
-
+        //Exception handling if-statement
         if(Integer.parseInt(partStockField.getText()) < Integer.parseInt(partMaxField.getText()) && Integer.parseInt(partStockField.getText()) > Integer.parseInt(partMinField.getText())) {
+
+            int id = Integer.parseInt(partIdField.getText());
+            String name = partNameField.getText();
+            int stock = Integer.parseInt(partStockField.getText());
+            double price = Double.parseDouble(partPriceField.getText());
+            int min = Integer.parseInt(partMinField.getText());
+            int max = Integer.parseInt(partMaxField.getText());
 
             for(Part part: Inventory.getAllParts()) {
 
-
                 if (part.getId() == id) {
 
-                    part.setName(partNameField.getText());
-                    part.setStock(Integer.parseInt(partStockField.getText()));
-                    part.setPrice(Double.parseDouble(partPriceField.getText()));
-                    part.setMax(Integer.parseInt(partMaxField.getText()));
-                    part.setMin(Integer.parseInt(partMinField.getText()));
-
+                int partIndex = Inventory.getAllParts().indexOf(part);
 
                     if (modPartInHouse.isSelected()) {
+                        if (part instanceof InHouse) {
+                            part.setName(name);
+                            part.setStock(stock);
+                            part.setPrice(price);
+                            part.setMax(max);
+                            part.setMin(min);
 
-                        ((InHouse) part).setMachineId(Integer.parseInt(modPartVariableField.getText()));
+                            ((InHouse) part).setMachineId(Integer.parseInt(modPartVariableField.getText()));
+                            break;
+                        } else {
+                            Part inHousePart = new InHouse(id, name, price,stock,min,max, Integer.parseInt(modPartVariableField.getText()));
+                            Inventory.updatePart(partIndex, inHousePart);
+                            break;
+                        }
                     } else {
+                        if(part instanceof Outsourced) {
+                            part.setName(name);
+                            part.setStock(stock);
+                            part.setPrice(price);
+                            part.setMax(max);
+                            part.setMin(min);
 
-                        ((Outsourced) part).setCompanyName(modPartVariableField.getText());
+                            ((Outsourced) part).setCompanyName(modPartVariableField.getText());
+                            break;
+                        } else {
+                            Part outSrcPart = new Outsourced(id, name, price, stock, min, max, modPartVariableField.getText());
+                            Inventory.updatePart(partIndex, outSrcPart);
+                            break;
+                        }
                     }
-
-                    stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                    scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
-                    stage.setScene(new Scene(scene));
-                    stage.show();
                 }
             }
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");

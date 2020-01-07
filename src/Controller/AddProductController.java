@@ -1,8 +1,6 @@
 package Controller;
 
-import Model.InHouse;
 import Model.Inventory;
-import Model.Outsourced;
 import Model.Part;
 import Model.Product;
 import javafx.collections.FXCollections;
