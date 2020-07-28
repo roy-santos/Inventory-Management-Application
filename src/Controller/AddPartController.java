@@ -80,7 +80,7 @@ public class AddPartController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
 
-        if(result.isPresent() && result.get() == ButtonType.OK) {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
             stage.setScene(new Scene(scene));
@@ -91,35 +91,35 @@ public class AddPartController implements Initializable {
     @FXML
     void onActionSave(ActionEvent event) throws IOException {
 
-            int id = Inventory.getAllParts().size() + 1;
-            String name = addPartName.getText();
-            double price = Double.parseDouble(addPartPrice.getText());
-            int stock = Integer.parseInt(addPartInventory.getText());
-            int min = Integer.parseInt(addPartMin.getText());
-            int max = Integer.parseInt(addPartMax.getText());
+        int id = Inventory.getAllParts().size() + 1;
+        String name = addPartName.getText();
+        double price = Double.parseDouble(addPartPrice.getText());
+        int stock = Integer.parseInt(addPartInventory.getText());
+        int min = Integer.parseInt(addPartMin.getText());
+        int max = Integer.parseInt(addPartMax.getText());
 
-            if (stock < max && stock > min) {
+        if (stock < max && stock > min) {
 
-                if (addPartInHouse.isSelected()) {
+            if (addPartInHouse.isSelected()) {
 
-                    int machineId = Integer.parseInt(addPartVariableField.getText());
-                    Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
-                } else {
-
-                    String companyName = addPartVariableField.getText();
-                    Inventory.addPart(new Outsourced(id, name, price, stock, min, max, companyName));
-                }
-
-                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
-                stage.setScene(new Scene(scene));
-                stage.show();
+                int machineId = Integer.parseInt(addPartVariableField.getText());
+                Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setContentText("Please make sure that inventory quantity is greater than minimum and less than the maximum value.");
-                alert.showAndWait();
+
+                String companyName = addPartVariableField.getText();
+                Inventory.addPart(new Outsourced(id, name, price, stock, min, max, companyName));
             }
+
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/view/MainScreenView.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Please make sure that inventory quantity is greater than minimum and less than the maximum value.");
+            alert.showAndWait();
+        }
     }
 
     @Override
